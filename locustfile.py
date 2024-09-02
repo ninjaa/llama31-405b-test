@@ -6,7 +6,7 @@ from pathlib import Path
 import tiktoken
 from faker import Faker
 from locust import HttpUser, between, events, task
-
+import time
 
 generator = Faker()
 
@@ -52,12 +52,27 @@ class LlmTestUser(HttpUser):
         logging.info(
             f"Sending text ({num_chars=}, {max_tokens=}, {model_id=}) to {url}...")
         logging.info(f"Data: {data}")
+        start_time = time.time()
         response = self.client.post(url, headers=headers, json=data)
-
+        end_time = time.time()
         try:
             response.raise_for_status()
             logging.info(f"Success: {response.text[:100]}")
-            self._count_tokens(response.text, "Output")
+            output_tokens = self._count_tokens(response.text, "Output")
+
+            # Calculate tokens per second
+            elapsed_time = end_time - start_time
+            tokens_per_second = output_tokens / elapsed_time
+
+            # Fire a custom event for tokens per second
+            events.request.fire(
+                request_type="TOKENS_PER_SECOND",
+                name="Tokens/s",
+                response_time=tokens_per_second,
+                response_length=0,
+                exception=None,
+                context=self.context(),
+            )
         except Exception:
             logging.exception(f"Error: {response.text}")
 
@@ -71,3 +86,4 @@ class LlmTestUser(HttpUser):
             exception=None,
             context=self.context(),
         )
+        return token_count
