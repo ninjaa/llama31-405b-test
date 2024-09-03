@@ -1,5 +1,5 @@
 {
-  "prompt": "Based on the following user profile and product catalog, recommend 5 items: [Insert user profile and product catalog]",
-  "max_tokens": 200,
-  "type": "rag_recommendation"
+    "prompt": "# RAG Prompt: Pet Toy Recommendations\n\nBased on the following pet profile and toy catalog, recommend 3 toys:\n\n## Pet Profile\nName: Whiskers\nSpecies: Cat\nAge: 4 years\nWeight: 10 lbs\nActivity Level: High\nFavorite Toys: Laser pointers, crinkly balls\nSpecial Needs: Dental health\n\n## Toy Catalog\n1. Feather Wand Deluxe\n   - Type: Interactive\n   - Material: Feathers, plastic\n   - Features: Retractable wand, replaceable feathers\n   - Price: $12.99\n\n2. Catnip Mouse\n   - Type: Plush toy\n   - Material: Fabric, catnip filling\n   - Features: Realistic mouse shape, catnip-infused\n   - Price: $5.99\n\n3. Dental Health Chew Stick\n   - Type: Dental toy\n   - Material: Rubber\n   - Features: Textured surface, treat-dispensing\n   - Price: $8.99\n\n4. Interactive Treat Puzzle\n   - Type: Puzzle toy\n   - Material: Plastic\n   - Features: Adjustable difficulty, treat-dispensing\n   - Price: $15.99\n\n5. Crinkle Ball Set\n   - Type: Ball toy\n   - Material: Mylar\n   - Features: Crinkly sound, lightweight\n   - Price: $7.99 for 3\n\n",
+    "max_tokens": 200,
+    "type": "rag_recommendation"
 }
