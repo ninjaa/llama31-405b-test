@@ -29,8 +29,13 @@ if os.path.exists(BOOK_PATH):
     with open(BOOK_PATH, 'r') as book_file:
         BOOK_CONTENT = book_file.read()
 
+# Add a quote from Tennyson to the middle of the book
+TENNYSON_QUOTE = "Into the valley of Death rode the six hundred."
+sentences = BOOK_CONTENT.split('.')
+mid_point = len(sentences) // 2
+sentences.insert(mid_point, TENNYSON_QUOTE)
+MODIFIED_BOOK_CONTENT = '. '.join(sentences)
 
-# Add command-line argument parsing
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
 
@@ -45,6 +50,8 @@ class LlmTestUser(HttpUser):
         text = prompt_data['prompt']
         if prompt_name == 'summarize_book' and BOOK_CONTENT:
             text += f"\n\nBook content:\n{BOOK_CONTENT}"
+        elif prompt_name == 'haystack_needle' and BOOK_CONTENT:
+            text += f"\n\nBook content:\n{MODIFIED_BOOK_CONTENT}"
         max_tokens = prompt_data.get('max_tokens')
         prompt_type = prompt_data['type']
 
