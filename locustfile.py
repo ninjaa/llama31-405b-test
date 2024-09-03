@@ -23,6 +23,13 @@ prompts = {}
 for file in PROMPT_DIR.glob("*.json"):
     prompts[file.stem] = json.loads(file.read_text())
 
+BOOK_CONTENT = ""
+BOOK_PATH = PROMPT_DIR / "full_book.txt"
+if os.path.exists(BOOK_PATH):
+    with open(BOOK_PATH, 'r') as book_file:
+        BOOK_CONTENT = book_file.read()
+
+
 # Add command-line argument parsing
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
@@ -36,6 +43,8 @@ class LlmTestUser(HttpUser):
     def predict(self) -> None:
         prompt_name, prompt_data = random.choice(list(prompts.items()))
         text = prompt_data['prompt']
+        if prompt_name == 'summarize_book' and BOOK_CONTENT:
+            text += f"\n\nBook content:\n{BOOK_CONTENT}"
         max_tokens = prompt_data.get('max_tokens')
         prompt_type = prompt_data['type']
 
