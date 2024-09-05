@@ -129,7 +129,7 @@ class LlmTestUser(HttpUser):
             events.request.fire(
                 request_type="PROMPT_TYPE",
                 name=f"Prompt Type - {prompt_type}",
-                response_time=1,
+                response_time=elapsed_time * 1000,  # Convert seconds to milliseconds,
                 response_length=0,
                 exception=None,
                 context=self.context(),
