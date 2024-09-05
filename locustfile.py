@@ -136,6 +136,14 @@ class LlmTestUser(HttpUser):
                 context=self.context(),
             )
             events.request.fire(
+                request_type="OUTPUT_TOKENS",
+                name=f"Output Tokens - {prompt_type}",
+                response_time=output_tokens,
+                response_length=0,
+                exception=None,
+                context=self.context(),
+            )
+            events.request.fire(
                 request_type="COMBINED_TOKENS_PER_SECOND",
                 name="Combined Tokens/s",
                 response_time=tokens_per_second,
