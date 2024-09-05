@@ -119,8 +119,10 @@ class LlmTestUser(HttpUser):
         end_time = time.time()
         try:
             response.raise_for_status()
-            logging.info(f"Success: {response.text[:100]}")
-            output_tokens = self._count_tokens(response.text, "Output")
+            json_response = response.json()
+            output_text = json_response['choices'][0]['text']
+            logging.info(f"Success: {output_text[:100]}")
+            output_tokens = self._count_tokens(output_text, "Output")
 
             # Calculate tokens per second
             elapsed_time = end_time - start_time
