@@ -21,8 +21,16 @@ MAX_CONTEXT_LENGTH = 131072  # Maximum context length for the model
 RESERVE_TOKENS = 5000  # Reserve some tokens for the prompt and completion
 
 PROMPT_DIR = Path(__file__).parent / "test-prompts"
+SELECTED_PROMPTS = os.getenv('SELECTED_PROMPTS')
+if SELECTED_PROMPTS:
+    selected_prompt_list = SELECTED_PROMPTS.split(',')
+else:
+    selected_prompt_list = None
+
 prompts = {}
 for file in PROMPT_DIR.glob("*.json"):
+    if selected_prompt_list and file.stem not in selected_prompt_list:
+        continue
     prompts[file.stem] = json.loads(file.read_text())
 
 BOOK_CONTENT = ""
