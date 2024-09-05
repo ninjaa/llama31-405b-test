@@ -67,6 +67,7 @@ LONG_PROMPT_THRESHOLD = int(
 USE_SYSTEM_PROMPT = os.getenv("USE_SYSTEM_PROMPT", "false").lower() == "true"
 SYSTEM_PROMPT = "I am a helpful assistant"
 
+
 class LlmTestUser(HttpUser):
     wait_time = between(0.05, 2)
     tokenizer = tiktoken.get_encoding(TOKENIZER_NAME)
@@ -90,10 +91,15 @@ class LlmTestUser(HttpUser):
             if len(self.tokenizer.encode(text)) < LONG_PROMPT_THRESHOLD:
                 return
 
+        model_id = AI_MODEL_ID
+        self._count_tokens(text, "Input")
+        num_chars = len(text)
+        headers = {"Content-Type": "application/json"}
+
         if USE_SYSTEM_PROMPT:
             url = "/v1/chat/completions"
             data = {
-                "model": AI_MODEL_ID,
+                "model": model_id,
                 "messages": [
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": text}
@@ -104,14 +110,14 @@ class LlmTestUser(HttpUser):
         else:
             url = "/v1/completions"
             data = {
-                "model": AI_MODEL_ID,
+                "model": model_id,
                 "prompt": text,
                 "max_tokens": max_tokens,
                 "temperature": TEMPERATURE,
             }
 
         logging.info(
-            f"Sending text ({len(text)=}, {max_tokens=}, {AI_MODEL_ID=}) to {url}...")
+            f"Sending text ({num_chars=}, {max_tokens=}, {model_id=}) to {url}...")
         logging.info(f"Data: {data}")
         start_time = time.time()
 
@@ -133,7 +139,7 @@ class LlmTestUser(HttpUser):
                 output_text = json_response['choices'][0]['message']['content']
             else:
                 output_text = json_response['choices'][0]['text']
-            
+
             logging.info(f"Success: {output_text[:100]}")
             output_tokens = self._count_tokens(output_text, "Output")
 
