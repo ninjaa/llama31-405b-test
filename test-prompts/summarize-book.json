@@ -1,5 +1,5 @@
 {
   "prompt": "Summarize the following book in 500 words: ",
   "max_tokens": 500,
-  "type": "summarize_book"
+  "type": "summarize-book"
 }

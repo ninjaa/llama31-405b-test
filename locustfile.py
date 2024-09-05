@@ -76,7 +76,7 @@ class LlmTestUser(HttpUser):
     def predict(self) -> None:
         prompt_name, prompt_data = random.choice(list(prompts.items()))
         text = prompt_data['prompt']
-        if prompt_name == 'summarize_book' and BOOK_CONTENT:
+        if prompt_name == 'summarize-book' and BOOK_CONTENT:
             text += f"\n\nBook content:\n{BOOK_CONTENT}"
         elif prompt_name == 'haystack-needle' and BOOK_CONTENT:
             text += f"\n\nBook content:\n{MODIFIED_BOOK_CONTENT}"
