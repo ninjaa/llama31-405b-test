@@ -1,5 +1,5 @@
 {
   "prompt": "Write a haiku about AI.",
   "max_tokens": 50,
-  "type": "short"
+  "type": "short-haiku"
 }

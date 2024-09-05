@@ -34,7 +34,7 @@ for file in PROMPT_DIR.glob("*.json"):
     prompts[file.stem] = json.loads(file.read_text())
 
 BOOK_CONTENT = ""
-BOOK_PATH = PROMPT_DIR / "full_book.txt"
+BOOK_PATH = PROMPT_DIR / "full-book.txt"
 if os.path.exists(BOOK_PATH):
     with open(BOOK_PATH, 'r') as book_file:
         full_book = book_file.read()
@@ -78,7 +78,7 @@ class LlmTestUser(HttpUser):
         text = prompt_data['prompt']
         if prompt_name == 'summarize_book' and BOOK_CONTENT:
             text += f"\n\nBook content:\n{BOOK_CONTENT}"
-        elif prompt_name == 'haystack_needle' and BOOK_CONTENT:
+        elif prompt_name == 'haystack-needle' and BOOK_CONTENT:
             text += f"\n\nBook content:\n{MODIFIED_BOOK_CONTENT}"
         max_tokens = prompt_data.get('max_tokens')
         prompt_type = prompt_data['type']

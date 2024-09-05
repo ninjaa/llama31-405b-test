@@ -1,5 +1,5 @@
 {
   "prompt": "Explain quantum computing in detail.",
   "max_tokens": 1000,
-  "type": "long"
+  "type": "thousand-word-essay"
 }
