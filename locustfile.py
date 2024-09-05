@@ -51,6 +51,11 @@ RUN_SHORT_PROMPTS_ONLY = os.getenv(
 SHORT_PROMPT_THRESHOLD = int(
     os.getenv("SHORT_PROMPT_THRESHOLD", 5000))  # Default to 5000 tokens
 
+RUN_LONG_PROMPTS_ONLY = os.getenv(
+    "RUN_LONG_PROMPTS_ONLY", "false").lower() == "true"
+LONG_PROMPT_THRESHOLD = int(
+    os.getenv("LONG_PROMPT_THRESHOLD", 5000))  # Default to 5000 tokens
+
 
 class LlmTestUser(HttpUser):
     wait_time = between(0.05, 2)
@@ -69,6 +74,10 @@ class LlmTestUser(HttpUser):
 
         if RUN_SHORT_PROMPTS_ONLY:
             if len(self.tokenizer.encode(text)) >= SHORT_PROMPT_THRESHOLD:
+                return
+
+        if RUN_LONG_PROMPTS_ONLY:
+            if len(self.tokenizer.encode(text)) < LONG_PROMPT_THRESHOLD:
                 return
 
         url = "/v1/completions"
