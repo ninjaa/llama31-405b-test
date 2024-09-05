@@ -1,0 +1,5 @@
+{
+    "prompt": "Write about a happy dog playing in a big green park on a warm summer day.",
+    "max_tokens": 100,
+    "type": "happy-dog-simple"
+}
