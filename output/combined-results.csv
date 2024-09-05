@@ -1,0 +1,13 @@
+﻿Prompt Length Classification,Prompt Type,Input Tokens,Max Output Tokens,Actual Output Tokens,tok/s,Average resp time (ms),95% resp time (ms),Using system prompt?,Temperature,Num Concurrent Users,AI Model ID
+classification,classify,155,1,1,5.54,181,180,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+classification,classify-hard,155,1,1,5.54,181,180,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+short writing,short-haiku,7,50,14,15.95,880,880,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+paragraph writing,happy-dog-simple,17,100,100,17.8,5629,5600,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+paragraph writing,happy-dog-complex,17,100,100,17.8,5626,5600,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+rag,rag-recommendation,292,200,200,17.71,11354,11000,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+page writing,thousand-word-essay,7,1000,1000,18,55602,56000,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+long doc summary,summarize-doc,126087,500,500,2.57,191377,195000,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+long doc search,haystack-needle,127504,50,50,0.31,159563,160000,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+ensemble short prompts,"classify, short-haiku, happy-dog-simple, rag-recommendation",108.42,200,76,14.42,4331,11000,Y,0,1,meta-llama/Meta-Llama-3.1-405B-Instruct-FP8
+neuralmagic - ensemble short prompts,"classify, short-haiku, happy-dog-simple, rag-recommendation",124,200,74.6,15.41,3828,10000,Y,0,1,neuralmagic/Meta-Llama-3.1-405B-Instruct-FP8
+neuralmagic - classification,classify,155,1,1,6.07,164.64,170,Y,0,1,neuralmagic/Meta-Llama-3.1-405B-Instruct-FP8
