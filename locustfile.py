@@ -93,6 +93,7 @@ class LlmTestUser(HttpUser):
 
         model_id = AI_MODEL_ID
         self._count_tokens(text, "Input")
+        self._count_tokens(text, f"Input - {prompt_type}")
         num_chars = len(text)
         headers = {"Content-Type": "application/json"}
 
@@ -142,6 +143,7 @@ class LlmTestUser(HttpUser):
 
             logging.info(f"Success: {output_text[:100]}")
             output_tokens = self._count_tokens(output_text, "Output")
+            self._count_tokens(output_text, f"Output - {prompt_type}")
 
             # Calculate tokens per second
             elapsed_time = end_time - start_time
@@ -152,14 +154,6 @@ class LlmTestUser(HttpUser):
                 request_type="TOKENS_PER_SECOND",
                 name=f"Tokens/s - {prompt_type}",
                 response_time=tokens_per_second,
-                response_length=0,
-                exception=None,
-                context=self.context(),
-            )
-            events.request.fire(
-                request_type="OUTPUT_TOKENS",
-                name=f"Output Tokens - {prompt_type}",
-                response_time=output_tokens,
                 response_length=0,
                 exception=None,
                 context=self.context(),
