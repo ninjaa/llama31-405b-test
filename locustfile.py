@@ -45,6 +45,12 @@ MODIFIED_BOOK_CONTENT = '. '.join(sentences)
 
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
+# Add configuration options for running short prompts
+RUN_SHORT_PROMPTS_ONLY = os.getenv(
+    "RUN_SHORT_PROMPTS_ONLY", "false").lower() == "true"
+SHORT_PROMPT_THRESHOLD = int(
+    os.getenv("SHORT_PROMPT_THRESHOLD", 5000))  # Default to 5000 tokens
+
 
 class LlmTestUser(HttpUser):
     wait_time = between(0.05, 2)
@@ -60,6 +66,10 @@ class LlmTestUser(HttpUser):
             text += f"\n\nBook content:\n{MODIFIED_BOOK_CONTENT}"
         max_tokens = prompt_data.get('max_tokens')
         prompt_type = prompt_data['type']
+
+        if RUN_SHORT_PROMPTS_ONLY:
+            if len(self.tokenizer.encode(text)) <= SHORT_PROMPT_THRESHOLD:
+                return
 
         url = "/v1/completions"
         headers = {"Content-Type": "application/json"}
