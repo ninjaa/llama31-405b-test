@@ -68,7 +68,7 @@ class LlmTestUser(HttpUser):
         prompt_type = prompt_data['type']
 
         if RUN_SHORT_PROMPTS_ONLY:
-            if len(self.tokenizer.encode(text)) <= SHORT_PROMPT_THRESHOLD:
+            if len(self.tokenizer.encode(text)) >= SHORT_PROMPT_THRESHOLD:
                 return
 
         url = "/v1/completions"
