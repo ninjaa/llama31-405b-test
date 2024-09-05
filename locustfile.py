@@ -17,6 +17,8 @@ AI_MODEL_ID = os.getenv("AI_MODEL_ID",
 TEMPERATURE = os.getenv("TEMPERATURE", 0)
 TOKENIZER_NAME: str = "cl100k_base"
 
+MAX_CONTEXT_LENGTH = 131072  # Maximum context length for the model
+RESERVE_TOKENS = 5000  # Reserve some tokens for the prompt and completion
 
 PROMPT_DIR = Path(__file__).parent / "test-prompts"
 prompts = {}
@@ -27,7 +29,12 @@ BOOK_CONTENT = ""
 BOOK_PATH = PROMPT_DIR / "full_book.txt"
 if os.path.exists(BOOK_PATH):
     with open(BOOK_PATH, 'r') as book_file:
-        BOOK_CONTENT = book_file.read()
+        full_book = book_file.read()
+
+    # Truncate the book content
+    max_book_tokens = MAX_CONTEXT_LENGTH - RESERVE_TOKENS
+    BOOK_CONTENT = tiktoken.get_encoding(TOKENIZER_NAME).decode(
+        tiktoken.get_encoding(TOKENIZER_NAME).encode(full_book)[:max_book_tokens])
 
 # Add a quote from Tennyson to the middle of the book
 TENNYSON_QUOTE = "Into the valley of Death rode the six hundred."
@@ -41,7 +48,6 @@ DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
 class LlmTestUser(HttpUser):
     wait_time = between(0.05, 2)
-
     tokenizer = tiktoken.get_encoding(TOKENIZER_NAME)
 
     @task
