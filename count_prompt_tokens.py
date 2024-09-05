@@ -12,14 +12,26 @@ def count_tokens(text):
 
 
 def main():
+    results = []
     for file in PROMPT_DIR.glob("*.json"):
         with open(file, 'r') as f:
             data = json.load(f)
 
         prompt = data.get('prompt', '')
-        token_count = count_tokens(prompt)
+        max_tokens = data.get('max_tokens', 0)
 
-        print(f"{file.name}: {token_count} tokens")
+        input_tokens = count_tokens(prompt)
+
+        results.append((file.name, input_tokens, max_tokens))
+
+    # Sort results by filename
+    results.sort(key=lambda x: x[0])
+
+    # Print results in a neat table
+    print(f"{'Filename':<30} {'Input Tokens':>12} {'Output Tokens':>13}")
+    print("-" * 57)
+    for filename, input_tokens, output_tokens in results:
+        print(f"{filename:<30} {input_tokens:>12} {output_tokens:>13}")
 
 
 if __name__ == "__main__":
